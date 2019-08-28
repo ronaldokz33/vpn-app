@@ -9,10 +9,15 @@ const { SIZES, COLORS } = theme;
 export default class VPN extends Component {
     render() {
         return (
-            <Block middle center>
-                <Text>VPN</Text>
+            <Block safe center>
+                <Block flex={false} padding={[20, 0]}>
+                    <Text title semibold>VPN</Text>
+                </Block>
+                <Block center>
+                    <Text>Servers</Text>
+                </Block>
             </Block>
-        )
+        );
     }
 }
 
