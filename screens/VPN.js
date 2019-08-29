@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { StyleSheet, Image, Modal, ScrollView } from 'react-native';
 import { Block, Button, Text, Utils } from 'expo-ui-kit'
 
-import { images, servers } from '../constants';
+import { images, servers, theme } from '../constants';
 
 
 const { icons } = images;
 
-const { theme, rgba } = Utils;
+const { rgba } = Utils;
 const { SIZES, COLORS } = theme;
 
 export default class VPN extends Component {
@@ -53,7 +53,7 @@ export default class VPN extends Component {
 
         return (
             <Modal visible={showModal} animationType="fade" transparent>
-                <Block bottom gray>
+                <Block bottom color={rgba(COLORS.gray, 0.2)}>
                     <Block white middle flex={false} padding={[SIZES.padding, 0]}>
                         <Text center gray subtitle>Pick your Server</Text>
                         <ScrollView>
@@ -64,10 +64,10 @@ export default class VPN extends Component {
 
                                     return (
                                         <Button transparent key={`server-${index}`} onPress={() => this.handleServer(item)}>
-                                            <Block row center flex={false} space="between" margin={[SIZES.padding / 2, SIZES.padding]}>
+                                            <Block row center flex={false} space="between" margin={[SIZES.padding, SIZES.padding]}>
                                                 <Block row center flex={false}>
                                                     <Image source={item.icon} />
-                                                    <Text padding={[0, SIZES.padding]}>{item.name}</Text>
+                                                    <Text padding={[0, SIZES.h3]}>{item.name}</Text>
                                                 </Block>
                                                 <Image source={isChecked} />
                                             </Block>
@@ -92,14 +92,14 @@ export default class VPN extends Component {
                 </Block>
                 <Block center middle flex={false}>
                     <Block row flex={false} center middle white shadow radius={SIZES.base * 3} padding={[SIZES.base, SIZES.padding]}>
-                        <Text subtitle semibold gray height={30}>
+                        <Text theme={theme} subtitle semibold gray height={SIZES.h3}>
                             {connected ? "CONNECTED" : "DISCONNECTED"}
                         </Text>
                         <Block flex={false} radius={10} color={connected ? COLORS.success : rgba(COLORS.gray, 0.5)} style={styles.status} />
                     </Block>
                     <Image style={styles.image} source={icons[connected ? "online" : "offline"]} />
 
-                    <Button outlined={!connected} style={styles.connect} onPress={this.handleConnect}>
+                    <Button theme={theme} outlined={!connected} style={[styles.connect, !connected && styles.connected]} onPress={this.handleConnect}>
                         <Text capiton center bold white={connected} margin={[SIZES.padding / 2, 0]}>
                             {connected ? "DISCONNECT" : "CONNECT NOW"}
                         </Text>
@@ -126,9 +126,9 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     status: {
-        width: 8,
-        height: 8,
-        marginLeft: 10
+        width: SIZES.base,
+        height: SIZES.base,
+        marginLeft: SIZES.small
     },
     servers: {
         width: SIZES.width,
@@ -139,5 +139,8 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.05,
         shadowRadius: SIZES.base / 2
+    },
+    connected: {
+        borderColor: COLORS.black
     }
 });
